@@ -5,7 +5,7 @@
 """
 
 import sys
-from PySide import QtGui,QtUiTools
+from PySide2 import QtGui,QtUiTools,QtWidgets
 
 __author__ = "第1班"
 __status__ = "debug"
@@ -19,7 +19,7 @@ class AppUI:
 
     # 初期化メソッド(引数：県名リストpref)
     def __init__(self,pref,rank):
-        self.app = QtGui.QApplication(sys.argv)
+        self.app = QtWidgets.QApplication(sys.argv)
         loader = QtUiTools.QUiLoader()
         self.ui = loader.load("app.ui")
         self.ui.start.addItems(pref)  # 出発地をリストで設定
@@ -39,7 +39,7 @@ class AppUI:
     # テキストボックスの入力が終了したときに呼び出す関数を設定する
     def setEditingFinishFunction(self,name,func):
         obj = getattr(self.ui,name)
-	obj.editingFinished.connect(func)
+        obj.editingFinished.connect(func)
 
     # メニューが選択された時に呼び出す関数を設定する
     def setActionFunction(self,name,func):
@@ -77,7 +77,7 @@ class AppUI:
         ret = 0
         try:
           ret = float(val)
-        except Exception, e:
+        except Exception:
           pass
         return ret
 

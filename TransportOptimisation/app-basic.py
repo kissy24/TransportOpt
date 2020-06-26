@@ -1,4 +1,10 @@
-# -*- coding: utf-8 -*-
+import appui
+import ship
+import airplane
+import train
+import track
+import dbapp
+import dbapp2
 """
 最適輸送モード計算ソフトウェア
 """
@@ -22,29 +28,20 @@ end = 0
 ranking = 0
 
 
-
-import appui
-import ship
-import airplane
-import train
-import track
-import dbapp
-import dbapp2
-
 # UIから、重みパラメータを取得する
 def getVariables():
-  cost = appl.getNumber('cost')
-  time = appl.getNumber('time')
-  envload = appl.getNumber('envload')
-  return [cost,time,envload]
+    cost = appl.getNumber('cost')
+    time = appl.getNumber('time')
+    envload = appl.getNumber('envload')
+    return [cost,time,envload]
 
 # UIの重みパラメータを設定する
 def setVariablescost(val):
-	cost = appl.setText('cost',str(val))	
+    cost = appl.setText('cost',str(val))	
 def setVariablestime(val):
-	time = appl.setText('time',str(val))
+    time = appl.setText('time',str(val))
 def setVariablesenvload(val):
-	envload = appl.setText('envload',str(val))
+    envload = appl.setText('envload',str(val))
 
 # 最適モードを計算する
 def doCalc():
@@ -57,14 +54,14 @@ def doCalc():
 
 # 履歴を表示する
 def doCache():
-	cache = dbapp2.getContent()
-	try:
-		appl.log(u'出発地:'+cache[-1][0]+u'到着地:'+cache[-1][1]+u'のとき')
-		appl.log(u'個数:'+str(cache[-1][2])+u'重量:'+str(cache[-1][3])+u'単価:'+str(cache[-1][4]))
-		appl.log(u'コスト:'+str(cache[-1][5])+u'時間:'+str(cache[-1][6])+u'環境負荷:'+str(cache[-1][7])+u'で')
-		appl.log(u'輸送モードは,'+modeStr[int(cache[-1][8])]+u'です')
-	except:
-		appl.log(u'履歴はありません')
+    cache = dbapp2.getContent()
+    try:
+        appl.log('出発地:'+cache[-1][0]+u'到着地:'+cache[-1][1]+u'のとき')
+        appl.log('個数:'+str(cache[-1][2])+u'重量:'+str(cache[-1][3])+u'単価:'+str(cache[-1][4]))
+        appl.log('コスト:'+str(cache[-1][5])+u'時間:'+str(cache[-1][6])+u'環境負荷:'+str(cache[-1][7])+u'で')
+        appl.log('輸送モードは,'+modeStr[int(cache[-1][8])]+u'です')
+    except:
+        appl.log('履歴はありません')
 		
 
 # コスト、時間、環境負荷を引数として最適モードを計算する
@@ -91,47 +88,47 @@ def getOptimalMode(variables):
     
 # ランキングを変更する
 def setRanking(num):
-	global ranking
-	ranking = num
+    global ranking
+    ranking = num
 	
 # ランキングを表示する
 def doRanking():
     if ranking==1:
-    	r = dbapp2.getFee(start,end)
-    	try:
-    		appl.log(u'輸送モードの運賃ランキングは')
-    		appl.log(u'一位:'+r[0][0])
-    		appl.log(u'二位:'+r[1][0])
-    		appl.log(u'三位:'+r[2][0])
-    		appl.log(u'四位:'+r[3][0])
-    		return
-    	except:
-    		pass
+        r = dbapp2.getFee(start,end)
+        try:
+    	    appl.log(u'輸送モードの運賃ランキングは')
+    	    appl.log(u'一位:'+r[0][0])
+    	    appl.log(u'二位:'+r[1][0])
+    	    appl.log(u'三位:'+r[2][0])
+    	    appl.log(u'四位:'+r[3][0])
+    	    return
+        except:
+            pass
     if ranking==2:
-    	r = dbapp2.getTime(start,end)
-    	try:
-    		appl.log(u'輸送モードの時間ランキングは')
-    		appl.log(u'一位:'+r[0][0])
-    		appl.log(u'二位:'+r[1][0])
-    		appl.log(u'三位:'+r[2][0])
-    		appl.log(u'四位:'+r[3][0])
-    	except:
-    		pass
+        r = dbapp2.getTime(start,end)
+        try:
+            appl.log(u'輸送モードの時間ランキングは')
+            appl.log(u'一位:'+r[0][0])
+            appl.log(u'二位:'+r[1][0])
+            appl.log(u'三位:'+r[2][0])
+            appl.log(u'四位:'+r[3][0])
+        except:
+            pass
     if ranking==3:
-    	r = dbapp2.getEload(start,end)
-    	try:
-    		appl.log(u'輸送モードの環境負荷ランキングは')
-    		appl.log(u'一位:'+r[0][0])
-    		appl.log(u'二位:'+r[1][0])
-    		appl.log(u'三位:'+r[2][0])
-    		appl.log(u'四位:'+r[3][0])
-    	except:
-    		pass
+        r = dbapp2.getEload(start,end)
+        try:
+            appl.log(u'輸送モードの環境負荷ランキングは')
+            appl.log(u'一位:'+r[0][0])
+            appl.log(u'二位:'+r[1][0])
+            appl.log(u'三位:'+r[2][0])
+            appl.log(u'四位:'+r[3][0])
+        except:
+            pass
         
     
 # 最適輸送モードを表示する
 def setMode(mode):
-  appl.setText('optmode', modeStr[mode] )
+    appl.setText('optmode', modeStr[mode] )
 
 # 重量と個数から、合計重量を計算し表示する
 def calcTotalWeight():
@@ -162,8 +159,6 @@ def setEnd(num):
         appl.log(u'出発地と到着を同じ場所に設定できません')
 
 if __name__=='__main__':
-
-
     # UI関係モジュールをクラスとして生成し、applに入れる
     appl = appui.AppUI(pref,rank)
  
